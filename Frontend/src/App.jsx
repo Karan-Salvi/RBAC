@@ -23,7 +23,7 @@ function App() {
 
         const userData = await responce.json();
 
-        console.log("User Datae is ", userData);
+       
 
         dispatch(userSliceActions.addUser(userData.data));
       }
@@ -33,7 +33,7 @@ function App() {
 
   const user1 = useSelector((store) => store.user);
 
-  console.log("Updated User1 is : ", user1);
+ 
   return (
     <>
       <div className="w-full h-auto flex-col relative">

@@ -6,6 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { usersSliceActions } from "../../store/usersSlice.js";
 
 const AdminNote = ({ query }) => {
+  function filterRecentUsers(users, days = 7) {
+    const currentDate = new Date();
+    const thresholdDate = new Date(currentDate);
+    thresholdDate.setDate(currentDate.getDate() - days);
+
+    return users.filter((user) => new Date(user.createdAt) >= thresholdDate);
+  }
+
   // let users = [
   //   {
   //     id: "dioajdojdof",
@@ -72,6 +80,8 @@ const AdminNote = ({ query }) => {
 
           console.log("Khich meri photo", finaldata);
 
+          console.log("Khich meri photo", finaldata.toString());
+
           // Validate if finaldata.data exists and is an array
           if (Array.isArray(finaldata.data)) {
             dispatch(usersSliceActions.initializeUsers(finaldata.data));
@@ -129,7 +139,7 @@ const AdminNote = ({ query }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col w-full gap-2 max-h-[47vh] overflow-y-scroll scrollbar-none scrollbar-hide">
+        <div className="flex flex-col w-full gap-2 max-h-[45vh] overflow-y-scroll scrollbar-none scrollbar-hide">
           {users
             .filter(
               (user) =>

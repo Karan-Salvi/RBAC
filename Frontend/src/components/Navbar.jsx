@@ -5,8 +5,7 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const user = useSelector((store) => store.user);
 
-  console.log("User is : ", user);
-
+ 
   const navigate = useNavigate();
 
   const handleLogOut = async () => {
@@ -17,7 +16,7 @@ const Navbar = () => {
 
     const data = await responce.json();
 
-    console.log("User Logged out data is : ", data);
+    
 
     if (data.success == true) {
       navigate("/user/login");

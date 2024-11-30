@@ -6,14 +6,25 @@ import AdminHeader from "./AdminHeader";
 import CreateUser from "./CreateUser";
 
 const AdminDashboard = () => {
+  function filterRecentUsers(users, days = 7) {
+    const currentDate = new Date();
+    const thresholdDate = new Date(currentDate);
+    thresholdDate.setDate(currentDate.getDate() - days);
+
+    return users.filter((user) => new Date(user.createdAt) >= thresholdDate);
+  }
   let date = new Date();
 
   const [query, setQuery] = useState("");
 
   const user = useSelector((store) => store.user);
 
-  const [totalUser, setTotalUser] = useState(84);
-  const [newUser, setNewUser] = useState(56);
+  const users = useSelector((store) => store.users);
+
+  let usersRecent = filterRecentUsers(users);
+
+
+
   return (
     <>
       <div className="flex flex-col w-full ">
@@ -46,21 +57,22 @@ const AdminDashboard = () => {
             </button>
           </div>
         </div>
-        <div className="w-full flex gap-3">
+        <div className="w-full flex gap-3 mb-3">
           <div className="w-full h-auto max-w-sm">
             <div class=" bg-purple-600 text-white rounded-lg shadow-lg p-4">
-              <div class="mb-4">
+              <div class="mb-4 flex items-center justify-between">
                 <h2 class="text-lg font-semibold">Total Users</h2>
+                <h1 className="font-bold text-2xl">{users.length}</h1>
               </div>
               <div class="mb-4">
                 <div class="flex items-center justify-between text-sm mb-1">
                   <span>Progress</span>
-                  <span>{totalUser}%</span>
+                  <span>{users.length}%</span>
                 </div>
                 <div class="w-full bg-purple-300 rounded-full h-2.5">
                   <div
                     class="bg-white h-2.5 rounded-full"
-                    style={{ width: `${totalUser}%` }}
+                    style={{ width: `${users.length % 100}%` }}
                   ></div>
                 </div>
               </div>
@@ -98,18 +110,19 @@ const AdminDashboard = () => {
           </div>
           <div className="w-full h-auto max-w-sm">
             <div class=" bg-blue-500 text-white rounded-lg shadow-lg p-4">
-              <div class="mb-4">
+              <div class="mb-4 flex items-center justify-between">
                 <h2 class="text-lg font-semibold">New Users</h2>
+                <h1 className="font-bold text-2xl">{usersRecent.length}</h1>
               </div>
               <div class="mb-4">
                 <div class="flex items-center justify-between text-sm mb-1">
                   <span>Progress</span>
-                  <span>{newUser}%</span>
+                  <span>{usersRecent.length}%</span>
                 </div>
                 <div class="w-full bg-blue-300 rounded-full h-2.5">
                   <div
                     class="bg-white h-2.5 rounded-full"
-                    style={{ width: `${newUser}%` }}
+                    style={{ width: `${usersRecent.length % 100}%` }}
                   ></div>
                 </div>
               </div>

@@ -1,57 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminNote from "./AdminNote";
 import Info from "./Info";
 import { FaSearch } from "react-icons/fa";
 import AdminHeader from "./AdminHeader";
+import { useSelector } from "react-redux";
 
 const ManageUser = () => {
-  const users = [
-    {
-      id: "dioajdojdof",
-      role: "admin",
-      name: "Ravi Prakash",
-      email: "ravi@gmail.com",
-      avatar: "/images/profile.jpeg",
-      createdAt: "2024-09-26T10:00:00Z",
-      updatedAt: "2024-09-26T10:00:00Z",
-    },
-    {
-      id: "jiodsfio23jf",
-      role: "user",
-      name: "Ankita Sharma",
-      email: "ankita@gmail.com",
-      avatar: "/images/ankita.jpeg",
-      createdAt: "2024-10-01T12:00:00Z",
-      updatedAt: "2024-10-01T12:00:00Z",
-    },
-    {
-      id: "asdiud923jrf",
-      role: "mentor",
-      name: "Rahul Yadav",
-      email: "rahul@gmail.com",
-      avatar: "/images/rahul.jpeg",
-      createdAt: "2024-10-10T08:00:00Z",
-      updatedAt: "2024-10-15T10:30:00Z",
-    },
-    {
-      id: "wkejwofiweojf",
-      role: "mentee",
-      name: "Priya Gupta",
-      email: "priya@gmail.com",
-      avatar: "/images/priya.jpeg",
-      createdAt: "2024-10-05T15:00:00Z",
-      updatedAt: "2024-10-05T15:00:00Z",
-    },
-    {
-      id: "uijeweu32434",
-      role: "admin",
-      name: "Sunil Kumar",
-      email: "sunil@gmail.com",
-      avatar: "/images/sunil.jpeg",
-      createdAt: "2024-09-20T09:00:00Z",
-      updatedAt: "2024-09-22T18:00:00Z",
-    },
-  ];
+  // const users = [
+  //   {
+  //     id: "dioajdojdof",
+  //     role: "admin",
+  //     name: "Ravi Prakash",
+  //     email: "ravi@gmail.com",
+  //     avatar: "/images/profile.jpeg",
+  //     createdAt: "2024-09-26T10:00:00Z",
+  //     updatedAt: "2024-09-26T10:00:00Z",
+  //   },
+  //   {
+  //     id: "jiodsfio23jf",
+  //     role: "user",
+  //     name: "Ankita Sharma",
+  //     email: "ankita@gmail.com",
+  //     avatar: "/images/ankita.jpeg",
+  //     createdAt: "2024-10-01T12:00:00Z",
+  //     updatedAt: "2024-10-01T12:00:00Z",
+  //   },
+  //   {
+  //     id: "asdiud923jrf",
+  //     role: "mentor",
+  //     name: "Rahul Yadav",
+  //     email: "rahul@gmail.com",
+  //     avatar: "/images/rahul.jpeg",
+  //     createdAt: "2024-10-10T08:00:00Z",
+  //     updatedAt: "2024-10-15T10:30:00Z",
+  //   },
+  //   {
+  //     id: "wkejwofiweojf",
+  //     role: "mentee",
+  //     name: "Priya Gupta",
+  //     email: "priya@gmail.com",
+  //     avatar: "/images/priya.jpeg",
+  //     createdAt: "2024-10-05T15:00:00Z",
+  //     updatedAt: "2024-10-05T15:00:00Z",
+  //   },
+  //   {
+  //     id: "uijeweu32434",
+  //     role: "admin",
+  //     name: "Sunil Kumar",
+  //     email: "sunil@gmail.com",
+  //     avatar: "/images/sunil.jpeg",
+  //     createdAt: "2024-09-20T09:00:00Z",
+  //     updatedAt: "2024-09-22T18:00:00Z",
+  //   },
+  // ];
 
   // for getting day name by time string
   // const dateStr = '2024-09-26T04:31:50.646+00:00';
@@ -78,6 +79,32 @@ const ManageUser = () => {
   // console.log(istDate); // Output: "September 26, 2024, 10:01:50 AM"
 
   const [query, setQuery] = useState("");
+
+  let users = useSelector((store) => store.users);
+  useEffect(() => {
+    async function fetchUsers() {
+      if (users.length === 0) {
+        try {
+          const response = await fetch("http://localhost:8000/api/v1/users");
+          const finaldata = await response.json();
+
+          console.log("Khich meri photo", finaldata);
+
+          console.log("Khich meri photo", finaldata.toString());
+
+          // Validate if finaldata.data exists and is an array
+          if (Array.isArray(finaldata.data)) {
+            dispatch(usersSliceActions.initializeUsers(finaldata.data));
+          } else {
+            console.error("Invalid data format:", finaldata);
+          }
+        } catch (error) {
+          console.error("Error fetching users:", error);
+        }
+      }
+    }
+    fetchUsers();
+  }, []);
 
   return (
     <>

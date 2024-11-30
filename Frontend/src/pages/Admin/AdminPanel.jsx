@@ -20,9 +20,10 @@ import { FaCalendarAlt } from "react-icons/fa";
 import AdminNote from "./AdminNote";
 import AdminDashboard from "./AdminDashboard";
 import CreateUser from "./CreateUser";
+import ConfirmDelete from "./ConfirmDelete";
 const AdminPanel = () => {
-  const [totalUser, setTotalUser] = useState(84);
-  const [newUser, setNewUser] = useState(56);
+  const [active, setActive] = useState(0);
+
   const navigate = useNavigate();
 
   const handleLogOut = async () => {
@@ -49,7 +50,7 @@ const AdminPanel = () => {
     },
 
     {
-      id: 6,
+      id: 2,
       name: "Manage Users",
       icon: (
         <MdOutlineSupportAgent className="text-xl font-bold text-gray-700" />
@@ -57,7 +58,7 @@ const AdminPanel = () => {
       URL: "/admin/dashboard/manageusers",
     },
     {
-      id: 4,
+      id: 3,
       name: "Settings",
       icon: <IoMdSettings className="text-xl font-bold text-gray-700" />,
       URL: "/admin/dashboard/settings",
@@ -72,11 +73,11 @@ const AdminPanel = () => {
 
   console.log("So date will be : " + date.toDateString().substring(4));
   return (
-    <div className="w-full">
-      <div className="flex flex-row gap-4 max-h-[100vh] min-h-[100vh]">
+    <div className="w-full relative flex flex-col">
+      <div className="flex flex-row  max-h-[100vh] min-h-[100vh]">
         <div className="w-1.5/12 md:w-2/12 bg-white rounded-lg shadow p-2 flex flex-col justify-between">
           <ul className="list-none">
-            <div className=" md:flex items-center mb-4">
+            <div className=" md:flex items-center  p-5">
               <img
                 src="/images/logo.jpg"
                 alt="Profile Picture"
@@ -86,8 +87,16 @@ const AdminPanel = () => {
             </div>
 
             {tasklist.map((task) => (
-              <li className="p-3 border-b border-gray-200 hover:bg-gray-200 rounded-lg">
-                <Link to={`${task.URL}`} className="flex items-center">
+              <li
+                className={`p-3 border-b border-gray-200 ${
+                  active === task.id ? "bg-gray-200" : ""
+                } hover:bg-gray-200 rounded-lg`}
+              >
+                <Link
+                  to={`${task.URL}`}
+                  className="flex items-center"
+                  onClick={() => setActive(task.id)}
+                >
                   {task.icon}
                   {/* <IoIosHome className="text-xl font-bold text-gray-700" /> */}
                   <span className="ml-2 text-sm font-semibold text-gray-500 hidden sm:block">

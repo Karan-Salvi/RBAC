@@ -29,6 +29,8 @@ import AdminPanel from "./pages/Admin/AdminPanel.jsx";
 import ManageUser from "./pages/Admin/ManageUser.jsx";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 import CreateUser from "./pages/Admin/CreateUser.jsx";
+import ConfirmDelete from "./pages/Admin/ConfirmDelete.jsx";
+import PermissionMatrix from "./pages/Admin/PermissionMatrix.jsx";
 
 const router = createBrowserRouter([
   {
@@ -112,6 +114,11 @@ const router = createBrowserRouter([
   },
 
   {
+    path: "/temp",
+    element: <ConfirmDelete />,
+  },
+
+  {
     path: "/admin/dashboard",
     element: (
       <AdminRoute>
@@ -130,6 +137,10 @@ const router = createBrowserRouter([
       {
         path: "/admin/dashboard/create-user",
         element: <CreateUser />,
+      },
+      {
+        path: "/admin/dashboard/permissions",
+        element: <PermissionMatrix />,
       },
     ],
   },
