@@ -5,6 +5,7 @@ import userSlice from "./userSlice";
 import messageSlice from "./messageSlice";
 import loaderSlice from "./loaderSlice";
 import usersSlice from "./usersSlice";
+import rolesSlice from "./rolesSlice";
 
 const userPersistConfig = {
   key: "user", // Key for localStorage
@@ -19,6 +20,7 @@ const persistedUserReducer = persistReducer(
 const MentifyStore = configureStore({
   reducer: {
     user: persistedUserReducer,
+    roles: rolesSlice.reducer,
     messages: messageSlice.reducer,
     loader: loaderSlice.reducer,
     users: usersSlice.reducer,

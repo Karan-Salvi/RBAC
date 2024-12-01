@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const { Server } = require("socket.io");
 const { createServer } = require("http");
 const userRoute = require("./Routes/user.routes.js");
+const roleRoute = require("./Routes/roles.routes.js");
 const { checkAuthenticated } = require("./Middlewares/authentication.js");
 
 const app = express();
@@ -25,5 +26,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1", userRoute);
+app.use("/api/v1", roleRoute);
 
 module.exports = app;

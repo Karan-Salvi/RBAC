@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
+import toast from "react-hot-toast";
 
 const CreateUser = () => {
   const firstNameElement = useRef();
@@ -47,6 +48,12 @@ const CreateUser = () => {
     roleElement.current.value = "";
 
     console.log("shinchan : ", data);
+
+    if (data.success) {
+      toast.success("User Created successfully");
+    } else {
+      toast.error("Something went wrong");
+    }
   };
 
   return (

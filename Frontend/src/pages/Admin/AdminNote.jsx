@@ -14,88 +14,36 @@ const AdminNote = ({ query }) => {
     return users.filter((user) => new Date(user.createdAt) >= thresholdDate);
   }
 
-  // let users = [
-  //   {
-  //     id: "dioajdojdof",
-  //     role: "admin",
-  //     name: "Ravi Prakash",
-  //     email: "ravi@gmail.com",
-  //     avatar: "/images/profile.jpeg",
-  //     timestamp: "2024-09-26T10:00:00Z",
-  //   },
-  //   {
-  //     id: "dioajdojdof",
-  //     role: "admin",
-  //     name: "Ravi Prakash",
-  //     email: "ravi@gmail.com",
-  //     avatar: "/images/profile.jpeg",
-  //     timestamp: "2024-09-26T10:00:00Z",
-  //   },
-  //   {
-  //     id: "dioajdojdof",
-  //     role: "admin",
-  //     name: "Ravi Prakash",
-  //     email: "ravi@gmail.com",
-  //     avatar: "/images/profile.jpeg",
-  //     timestamp: "2024-09-26T10:00:00Z",
-  //   },
-  //   {
-  //     id: "dioajdojdof",
-  //     role: "admin",
-  //     name: "Ravi Prakash",
-  //     email: "ravi@gmail.com",
-  //     avatar: "/images/profile.jpeg",
-  //     timestamp: "2024-09-26T10:00:00Z",
-  //   },
-  //   {
-  //     id: "dioajdojdof",
-  //     role: "admin",
-  //     name: "Ravi Prakash",
-  //     email: "ravi@gmail.com",
-  //     avatar: "/images/profile.jpeg",
-  //     timestamp: "2024-09-26T10:00:00Z",
-  //   },
-  //   {
-  //     id: "dioajdojdof",
-  //     role: "admin",
-  //     name: "Ravi Prakash",
-  //     email: "ravi@gmail.com",
-  //     avatar: "/images/profile.jpeg",
-  //     timestamp: "2024-09-26T10:00:00Z",
-  //   },
-  // ];
-
   let users = useSelector((store) => store.users);
 
   console.log("Users are : ", users);
 
-  const dispatch = useDispatch();
+  let dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchUsers() {
-      if (users.length === 0) {
-        try {
-          const response = await fetch("http://localhost:8000/api/v1/users");
-          const finaldata = await response.json();
+      
+      try {
+        const response = await fetch("http://localhost:8000/api/v1/users");
+        const finaldata = await response.json();
 
-          console.log("Khich meri photo", finaldata);
+        console.log("Khich meri photo", finaldata);
 
-          console.log("Khich meri photo", finaldata.toString());
+        console.log("Khich meri photo", finaldata.toString());
 
-          // Validate if finaldata.data exists and is an array
-          if (Array.isArray(finaldata.data)) {
-            dispatch(usersSliceActions.initializeUsers(finaldata.data));
-          } else {
-            console.error("Invalid data format:", finaldata);
-          }
-        } catch (error) {
-          console.error("Error fetching users:", error);
+        // Validate if finaldata.data exists and is an array
+        if (Array.isArray(finaldata.data)) {
+          dispatch(usersSliceActions.initializeUsers(finaldata.data));
+        } else {
+          console.error("Invalid data format:", finaldata);
         }
+      } catch (error) {
+        console.error("Error fetching users:", error);
       }
     }
 
     fetchUsers();
-  }, [users, dispatch]);
+  }, [users, users.length]);
 
   // for getting day name by time string
   // const dateStr = '2024-09-26T04:31:50.646+00:00';

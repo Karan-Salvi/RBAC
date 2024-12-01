@@ -21,6 +21,7 @@ import AdminNote from "./AdminNote";
 import AdminDashboard from "./AdminDashboard";
 import CreateUser from "./CreateUser";
 import ConfirmDelete from "./ConfirmDelete";
+import { Toaster } from "react-hot-toast";
 const AdminPanel = () => {
   const [active, setActive] = useState(0);
 
@@ -63,6 +64,12 @@ const AdminPanel = () => {
       icon: <IoMdSettings className="text-xl font-bold text-gray-700" />,
       URL: "/admin/dashboard/settings",
     },
+    // {
+    //   id: 4,
+    //   name: "Role",
+    //   icon: <IoMdSettings className="text-xl font-bold text-gray-700" />,
+    //   URL: "/admin/dashboard/settings",
+    // },
   ];
 
   const user = useSelector((store) => store.user);
@@ -73,57 +80,63 @@ const AdminPanel = () => {
 
   console.log("So date will be : " + date.toDateString().substring(4));
   return (
-    <div className="w-full relative flex flex-col">
-      <div className="flex flex-row  max-h-[100vh] min-h-[100vh]">
-        <div className="w-1.5/12 md:w-2/12 bg-white rounded-lg shadow p-2 flex flex-col justify-between">
-          <ul className="list-none">
-            <div className=" md:flex items-center  p-5">
-              <img
-                src="/images/logo.jpg"
-                alt="Profile Picture"
-                className="rounded-xl w-7 h-7 mr-2"
-              />
-              <span className="text-xl font-bold poppins-bold">MentorFlux</span>
-            </div>
+    <>
+      {" "}
+      <div className="w-full relative flex flex-col">
+        <div className="flex flex-row  max-h-[100vh] min-h-[100vh]">
+          <div className="w-1.5/12 md:w-2/12 bg-white rounded-lg shadow p-2 flex flex-col justify-between">
+            <ul className="list-none">
+              <div className=" md:flex items-center  p-5">
+                <img
+                  src="/images/logo.jpg"
+                  alt="Profile Picture"
+                  className="rounded-xl w-7 h-7 mr-2"
+                />
+                <span className="text-xl font-bold poppins-bold">
+                  MentorFlux
+                </span>
+              </div>
 
-            {tasklist.map((task) => (
-              <li
-                className={`p-3 border-b border-gray-200 ${
-                  active === task.id ? "bg-gray-200" : ""
-                } hover:bg-gray-200 rounded-lg`}
-              >
-                <Link
-                  to={`${task.URL}`}
-                  className="flex items-center"
-                  onClick={() => setActive(task.id)}
+              {tasklist.map((task) => (
+                <li
+                  className={`p-3 border-b border-gray-200 ${
+                    active === task.id ? "bg-gray-200" : ""
+                  } hover:bg-gray-200 rounded-lg`}
                 >
-                  {task.icon}
-                  {/* <IoIosHome className="text-xl font-bold text-gray-700" /> */}
-                  <span className="ml-2 text-sm font-semibold text-gray-500 hidden sm:block">
-                    {task.name}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="border-t border-gray-200 md:flex items-center p-3 flex justify-between">
-            <div className="flex items-center">
-              {" "}
-              <img
-                src={`${user.avatar}`}
-                alt="Profile Picture"
-                className="rounded-full w-10 h-10 mr-2"
-              />
-              <span className="text-lg font-medium">{user.name}</span>
+                  <Link
+                    to={`${task.URL}`}
+                    className="flex items-center"
+                    onClick={() => setActive(task.id)}
+                  >
+                    {task.icon}
+                    {/* <IoIosHome className="text-xl font-bold text-gray-700" /> */}
+                    <span className="ml-2 text-sm font-semibold text-gray-500 hidden sm:block">
+                      {task.name}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="border-t border-gray-200 md:flex items-center p-3 flex justify-between">
+              <div className="flex items-center">
+                {" "}
+                <img
+                  src={`${user.avatar}`}
+                  alt="Profile Picture"
+                  className="rounded-full w-10 h-10 mr-2"
+                />
+                <span className="text-lg font-medium">{user.name}</span>
+              </div>
+
+              <PiDotsThreeBold className="text-xl" />
             </div>
-
-            <PiDotsThreeBold className="text-xl" />
           </div>
-        </div>
 
-        <Outlet />
+          <Outlet />
+        </div>
+        <Toaster />
       </div>
-    </div>
+    </>
   );
 };
 

@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import ConfirmDelete from "./ConfirmDelete";
 import { messageActions } from "../../store/messageSlice";
+import toast from "react-hot-toast";
 
 const Info = ({ user }) => {
   const [deleteComponent, setDeleteComponent] = useState(false);
@@ -29,10 +30,8 @@ const Info = ({ user }) => {
 
       console.log("Value after deleting user is : ", value);
 
-      if (value.success === true) {
-        dispatch(
-          messageActions.setMessage({ success: true, message: value.message })
-        );
+      if (value.success) {
+        toast.success("User deleted successfully");
       }
     } catch (error) {
       console.log(error);

@@ -18,9 +18,11 @@ const ConfirmDelete = ({
                 <MdOutlineDangerous className="text-8xl" />
               </div>
             </div>
-            <h3 className="text-lg font-semibold mb-2">Delete User</h3>
+            <h3 className="text-xl font-bold mb-2 w-full text-center">
+              Delete
+            </h3>
             <p className="text-gray-600 text-sm">
-              Are you sure you want to delete this user? This action cannot be
+              Are you sure you want to delete this ? This action cannot be
               undone.
             </p>
             <div className="flex justify-end mt-4">
@@ -34,7 +36,7 @@ const ConfirmDelete = ({
               <button
                 className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
                 onClick={() => {
-                  setDeleteConfirm(true);
+                  // setDeleteConfirm(true);
                   handleOnDelete(_id);
                   setDeleteComponent(false);
                 }}

@@ -41,7 +41,7 @@ const AdminDashboard = () => {
           </button>
         </div>
       </div> */}
-        <div className="w-full flex items-center justify-between p-2 mb-4">
+        <div className="w-full flex items-center justify-between p-3 mb-4">
           <div className="w-full">
             <h1 className="font-extrabold text-4xl font-sans">
               Hello, {user.role.toUpperCase() || "ADMIN"}
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
             </button>
           </div>
         </div>
-        <div className="w-full flex gap-3 mb-3">
+        <div className="w-full flex gap-3 mb-3 p-3">
           <div className="w-full h-auto max-w-sm">
             <div class=" bg-purple-600 text-white rounded-lg shadow-lg p-4">
               <div class="mb-4 flex items-center justify-between">

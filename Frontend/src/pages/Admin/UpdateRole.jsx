@@ -1,20 +1,12 @@
-// frontend/src/components/RoleForm.js
 import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa6";
-import { CiCircleRemove } from "react-icons/ci";
-import { MdDelete } from "react-icons/md";
 import AdminHeader from "./AdminHeader";
 import { useDispatch } from "react-redux";
-import { messageActions } from "../../store/messageSlice";
+import { MdDelete } from "react-icons/md";
+import { FaPlus } from "react-icons/fa6";
 
-import toast, { Toaster } from "react-hot-toast";
-
-const RoleForm = ({ fetchRoles }) => {
+const UpdateRole = () => {
   const [name, setName] = useState("");
   const [permissions, setPermissions] = useState([""]); // Start with one empty permission
-
-  const nameElement = document.getElementById("name");
-  const permissionElement = document.getElementById("role");
 
   const handlePermissionChange = (index, value) => {
     const newPermissions = [...permissions];
@@ -57,8 +49,6 @@ const RoleForm = ({ fetchRoles }) => {
     console.log("Added a new role : ", value);
 
     if (value.success) {
-      nameElement.value = "";
-      permissionElement.value = "Select Permissions";
       toast.success("Role created successfully");
     } else {
       toast.error("Something went wrong");
@@ -88,11 +78,13 @@ const RoleForm = ({ fetchRoles }) => {
             onSubmit={handleSubmit}
             className="flex flex-col gap-4 w-2/5 border-2 px-6 py-16 rounded-lg shadow-xl "
           >
+            <h1 className="text-lg font-bold">Update Users permissions : </h1>
             <div className="flex flex-col gap-2">
-              <label htmlFor="name">Enter the Role Name : </label>
+              <label htmlFor="name">
+                Enter the Role for permission change :
+              </label>
               <input
                 type="text"
-                id="name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -102,7 +94,9 @@ const RoleForm = ({ fetchRoles }) => {
             </div>
 
             <div className="flex flex-col gap-2 ">
-              <label htmlFor="permissions">Assign Permissions : </label>
+              <label htmlFor="permissions">
+                Assign new Permission for Role :{" "}
+              </label>
               {permissions.map((permission, index) => (
                 <div key={index} className="flex items-center">
                   {/* <input
@@ -166,4 +160,4 @@ const RoleForm = ({ fetchRoles }) => {
   );
 };
 
-export default RoleForm;
+export default UpdateRole;

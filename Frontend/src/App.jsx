@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { userSliceActions } from "./store/userSlice";
 
 import { Outlet } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,8 +24,6 @@ function App() {
 
         const userData = await responce.json();
 
-       
-
         dispatch(userSliceActions.addUser(userData.data));
       }
     }
@@ -33,7 +32,6 @@ function App() {
 
   const user1 = useSelector((store) => store.user);
 
- 
   return (
     <>
       <div className="w-full h-auto flex-col relative">
@@ -66,6 +64,7 @@ function App() {
             </div>
           </div>
         </div>
+        
       </div>
     </>
   );
