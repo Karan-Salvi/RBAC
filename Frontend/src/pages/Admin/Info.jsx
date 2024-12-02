@@ -23,7 +23,6 @@ const Info = ({ user }) => {
 
   const handleOnDelete = async (id) => {
     try {
-      
       const url = `http://localhost:8000/api/v1/user/delete`;
       const responce = await fetch(`${url}/${id}`, {
         method: "DELETE",
@@ -39,7 +38,6 @@ const Info = ({ user }) => {
     }
   };
   let timeStringToDayName = (dateStr) => {
-   
     const date = new Date(dateStr);
     const dayName = date.toLocaleDateString("en-US", { weekday: "long" });
 
@@ -107,7 +105,9 @@ const Info = ({ user }) => {
           {role.toUpperCase()}
         </span>
         <div className="flex items-center p-4 md:gap-2">
-          <p className="text-gray-500 text-sm ">{realTimeString.substring(0, 18)}</p>
+          <p className="text-gray-500 text-sm ">
+            {realTimeString.substring(0, 18)}
+          </p>
           <div className=" flex flex-col md:flex-row gap-2">
             <MdDelete
               className="text-red-600 text-2xl"

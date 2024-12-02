@@ -8,11 +8,11 @@ const UpdateUserRole = ({ updateComponent, setUpdateComponent, id }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     async function getRoles() {
-      const responce = await fetch("http://localhost:8000/api/v1/roles",{credentials: "include",});
+      const responce = await fetch("http://localhost:8000/api/v1/roles", {
+        credentials: "include",
+      });
 
       const value = await responce.json();
-
-
 
       dispatch(rolesSliceActions.initializeRoles(value.data));
     }
@@ -21,7 +21,7 @@ const UpdateUserRole = ({ updateComponent, setUpdateComponent, id }) => {
 
   const handleRole = async (e) => {
     e.preventDefault();
-   
+
     try {
       const responce = await fetch(
         `http://localhost:8000/api/v1/user/updateRoleAsAdmin/${id}`,
@@ -38,7 +38,6 @@ const UpdateUserRole = ({ updateComponent, setUpdateComponent, id }) => {
       );
 
       const value = await responce.json();
-      
 
       if (value.success) {
         setUpdateComponent(false);

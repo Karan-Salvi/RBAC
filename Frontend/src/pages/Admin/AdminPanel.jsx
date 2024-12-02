@@ -84,17 +84,13 @@ const AdminPanel = () => {
 
   return (
     <>
-     
-       
-  
-
       <aside
         id="default-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <ul class="space-y-2 font-medium">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+          <ul className="space-y-2 font-medium">
             <div className="flex items-center  p-5">
               <img
                 src="/images/logo.jpg"
@@ -106,6 +102,7 @@ const AdminPanel = () => {
 
             {tasklist.map((task) => (
               <li
+                key={task.id}
                 className={`p-3 border-b border-gray-200 ${
                   active === task.id ? "bg-gray-200" : ""
                 } hover:bg-gray-200 rounded-lg`}
@@ -132,9 +129,10 @@ const AdminPanel = () => {
         </div>
       </aside>
 
-      <div class="p-1 sm:ml-64">
+      <div className="p-1 sm:ml-64">
         <Outlet />
       </div>
+      <Toaster />
     </>
   );
 };

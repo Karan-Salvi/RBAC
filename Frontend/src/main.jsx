@@ -118,11 +118,6 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/temp",
-    element: <UpdateUserRole />,
-  },
-
-  {
     path: "/admin/dashboard",
     element: (
       <AdminRoute>

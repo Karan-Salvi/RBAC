@@ -37,8 +37,6 @@ const UpdateRoletemp = () => {
       permission = permission.toUpperCase();
     });
 
-   
-
     const responce = await fetch(
       `http://localhost:8000/api/v1/roles/${name.toLowerCase()}`,
       {
@@ -55,15 +53,11 @@ const UpdateRoletemp = () => {
 
     const value = await responce.json();
 
-  
-
     if (value.success) {
       toast.success("Role Updated successfully");
     } else {
       toast.error("Something went wrong");
     }
-
-    
   };
 
   const dispatch = useDispatch();
@@ -76,16 +70,12 @@ const UpdateRoletemp = () => {
 
       const value = await responce.json();
 
-      
-
       dispatch(rolesSliceActions.initializeRoles(value.data));
     }
     getRoles();
   }, []);
 
   const rolesList = useSelector((store) => store.roles);
-
-  
 
   return (
     <>

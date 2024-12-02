@@ -47,14 +47,11 @@ const DeleteRole = () => {
 
     const value = await responce.json();
 
-   
-
     if (value.success) {
       toast.success("Role created successfully");
     } else {
       toast.error("Something went wrong");
     }
-
   };
 
   return (

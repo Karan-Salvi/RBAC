@@ -16,20 +16,15 @@ const AdminNote = ({ query }) => {
 
   let users = useSelector((store) => store.users);
 
-
-
   let dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchUsers() {
-      
       try {
-        const response = await fetch("http://localhost:8000/api/v1/users",{credentials:"include"});
+        const response = await fetch("http://localhost:8000/api/v1/users", {
+          credentials: "include",
+        });
         const finaldata = await response.json();
-
-       
-
-        
 
         // Validate if finaldata.data exists and is an array
         if (Array.isArray(finaldata.data)) {
@@ -44,8 +39,6 @@ const AdminNote = ({ query }) => {
 
     fetchUsers();
   }, [users, users.length]);
-
- 
 
   return (
     <>

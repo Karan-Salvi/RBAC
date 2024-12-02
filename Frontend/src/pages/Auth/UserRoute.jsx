@@ -8,13 +8,11 @@ const UserRoute = ({ children }) => {
 
   const location = useLocation();
 
-  // Check if user exists and role is valid
-  if (!["admin", "user"].includes(currentUser.role)) {
+  if (currentUser.role === "unloggeduser") {
     console.error("Unauthorized access attempt:", currentUser);
     return <Navigate to="/user/login" state={{ from: location }} replace />;
   }
 
-  // Render children if authorized
   return <>{children}</>;
 };
 

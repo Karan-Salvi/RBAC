@@ -13,8 +13,6 @@ const ResetPassword = () => {
 
   const { token } = useParams();
 
- 
-
   const handleResetPassword = async (event) => {
     event.preventDefault();
 
@@ -39,8 +37,6 @@ const ResetPassword = () => {
       );
 
       const data = await responce.json();
-
-     
 
       if (data.success === true) {
         navigate("/user/login");

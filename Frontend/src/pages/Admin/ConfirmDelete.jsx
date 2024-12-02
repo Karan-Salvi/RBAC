@@ -8,7 +8,6 @@ const ConfirmDelete = ({
   handleOnDelete,
   _id,
 }) => {
-  
   return (
     <>
       {deleteComponent && (

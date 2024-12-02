@@ -32,8 +32,6 @@ const SignupPage = () => {
     });
     const data = await responce.json();
 
-    
-
     firstNameElement.current.value = "";
     lastNameElement.current.value = "";
     emailElement.current.value = "";

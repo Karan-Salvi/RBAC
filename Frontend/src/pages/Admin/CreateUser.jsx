@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const CreateUser = () => {
   const firstNameElement = useRef();
@@ -16,8 +17,6 @@ const CreateUser = () => {
     event.preventDefault();
 
     let userRole = roleElement.current.value.toLowerCase();
-
-   
 
     const user = {
       name:
@@ -39,15 +38,13 @@ const CreateUser = () => {
     });
     const data = await responce.json();
 
-    
-
     firstNameElement.current.value = "";
     lastNameElement.current.value = "";
     emailElement.current.value = "";
     passwordElement.current.value = "";
     roleElement.current.value = "";
 
-
+    console.log("Role lis IS ", data.success);
 
     if (data.success) {
       toast.success("User Created successfully");
@@ -56,13 +53,15 @@ const CreateUser = () => {
     }
   };
 
+  const roleList = useSelector((store) => store.roles);
+
   return (
     <section className=" font-sans flex flex-col justify-center w-full ">
       <div className="w-full flex flex-col min-h-screen items-center">
         <AdminHeader />
 
         <div className="w-full flex justify-center items-center h-full">
-          <div className="bg-white w-1/2 p-8 rounded-lg shadow-md h-auto lg:p-16 border-2 ">
+          <div className="bg-white w-4/5  md:w-1/2 p-8 rounded-lg shadow-md h-auto lg:p-16 border-2 ">
             <h1 className="text-2xl font-bold text-gray-800 mb-4">
               Create a new User
             </h1>
@@ -131,22 +130,24 @@ const CreateUser = () => {
                 >
                   Select Role for user :
                 </label>
-                <input
+                {/* <input
                   type="text"
                   id="role"
                   ref={roleElement}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Enter role for user..."
                   required
-                />
-                {/* <select
+                /> */}
+                <select
                   id="role"
                   ref={roleElement}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
-                  <option>User</option>
-                  <option>Admin</option>
-                </select> */}
+                  <option>Select Role </option>
+                  {roleList.map((role) => (
+                    <option>{role.name.toUpperCase()}</option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label

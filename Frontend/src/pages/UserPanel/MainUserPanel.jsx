@@ -24,8 +24,6 @@ const MainUserPanel = () => {
 
     const data = await responce.json();
 
-   
-
     if (data.success == true) {
       navigate("/user/login");
     }

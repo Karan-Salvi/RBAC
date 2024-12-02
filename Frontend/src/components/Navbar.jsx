@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const user = useSelector((store) => store.user);
 
- 
   const navigate = useNavigate();
 
   const handleLogOut = async () => {
@@ -15,8 +14,6 @@ const Navbar = () => {
     });
 
     const data = await responce.json();
-
-    
 
     if (data.success == true) {
       navigate("/user/login");
@@ -82,6 +79,17 @@ const Navbar = () => {
                         Dashboard
                       </Link>
                     </li>
+                    {user.role === "admin" && (
+                      <li>
+                        <Link
+                          to={"/admin/dashboard"}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                        >
+                          Admin Dashboard
+                        </Link>
+                      </li>
+                    )}
+
                     <li>
                       <Link
                         to={"/user/dashboard/settings"}

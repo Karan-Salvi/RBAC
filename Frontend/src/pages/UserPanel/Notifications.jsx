@@ -75,7 +75,6 @@ const Notifications = () => {
     },
   ];
 
-
   return (
     <>
       <div className="w-full bg-white rounded-lg shadow p-4 min-h-[85vh]">
