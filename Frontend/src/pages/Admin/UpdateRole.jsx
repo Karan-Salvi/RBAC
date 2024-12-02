@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MdDelete } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
+import { rolesSliceActions } from "../../store/rolesSlice";
+import toast from "react-hot-toast";
 
-const UpdateRole = () => {
+const UpdateRole = ({ updateComponent, setUpdateComponent, _id }) => {
   const [name, setName] = useState("");
   const [permissions, setPermissions] = useState([""]); // Start with one empty permission
+
+  const [permissionsList, setPermissionsList] = useState([
+    "Read",
+    "Write",
+    "Delete",
+  ]);
 
   const handlePermissionChange = (index, value) => {
     const newPermissions = [...permissions];
@@ -23,8 +31,6 @@ const UpdateRole = () => {
     setPermissions(newPermissions);
   };
 
-  const dispatch = useDispatch();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -32,66 +38,71 @@ const UpdateRole = () => {
       permission = permission.toUpperCase();
     });
 
-    const responce = await fetch("http://localhost:8000/api/v1/roles/create", {
+    const responce = await fetch(`http://localhost:8000/api/v1/roles/${_id}`, {
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify({
-        name: name.toLowerCase(),
         permissions: permissions,
       }),
     });
 
     const value = await responce.json();
 
-    console.log("Added a new role : ", value);
-
     if (value.success) {
-      toast.success("Role created successfully");
+      setUpdateComponent(false);
+      toast.success("Role Updated successfully");
     } else {
       toast.error("Something went wrong");
     }
-
-    // await fetch("http://localhost:8000/api/v1/roles", {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   credentials: "include",
-    //   body: JSON.stringify({
-    //     name: name.toLowerCase(),
-    //     permissions: permissions,
-    //   }),
-    // });
-    // fetchRoles();
-    // setName("");
-    // setPermissions([""]); // Reset to one empty permission
   };
+
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   async function getRoles() {
+  //     const responce = await fetch("http://localhost:8000/api/v1/roles");
+
+  //     const value = await responce.json();
+
+  //     console.log("All permisssions are : ", value);
+
+  //     dispatch(rolesSliceActions.initializeRoles(value.data));
+  //   }
+  //   getRoles();
+  // }, []);
+
+  const rolesList = useSelector((store) => store.roles);
 
   return (
     <>
-      <div className="w-full min-h-screen flex flex-col justify-between items-center">
-        <AdminHeader />
-        <div className="w-full h-full flex  justify-center items-center">
+      {updateComponent && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-4 w-2/5 border-2 px-6 py-16 rounded-lg shadow-xl "
+            className="flex flex-col gap-4 w-4/5  sm:w-2/5 h-auto border-2 px-6 py-16 rounded-lg  bg-white "
           >
             <h1 className="text-lg font-bold">Update Users permissions : </h1>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="name">
-                Enter the Role for permission change :
-              </label>
-              <input
-                type="text"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Role Name"
-                required
-              />
-            </div>
+            {/* <div className="flex flex-col gap-2">
+            <label htmlFor="name">
+              Enter the Role for permission change :
+            </label>
+
+            <select
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option>Select Role to update</option>
+              {rolesList.map((role) => (
+                <option key={role._id}>{role.name.toUpperCase()}</option>
+              ))}
+            </select>
+          </div> */}
 
             <div className="flex flex-col gap-2 ">
               <label htmlFor="permissions">
@@ -100,13 +111,13 @@ const UpdateRole = () => {
               {permissions.map((permission, index) => (
                 <div key={index} className="flex items-center">
                   {/* <input
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            type="text"
-            value={permission}
-            onChange={(e) => handlePermissionChange(index, e.target.value)}
-            placeholder={`Permission ${index + 1}`}
-            required
-          /> */}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          value={permission}
+          onChange={(e) => handlePermissionChange(index, e.target.value)}
+          placeholder={`Permission ${index + 1}`}
+          required
+        /> */}
 
                   <select
                     id="role"
@@ -117,10 +128,12 @@ const UpdateRole = () => {
                     required
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    <option>Select Permissions</option>
-                    <option>Read</option>
-                    <option>Write</option>
-                    <option>Delete</option>
+                    <option>
+                      Select permission which you want to assign to Role
+                    </option>
+                    {permissionsList.map((role) => (
+                      <option>{role}</option>
+                    ))}
                   </select>
 
                   <button
@@ -155,7 +168,7 @@ const UpdateRole = () => {
             </button>
           </form>
         </div>
-      </div>
+      )}
     </>
   );
 };

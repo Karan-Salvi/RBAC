@@ -33,6 +33,8 @@ import ConfirmDelete from "./pages/Admin/ConfirmDelete.jsx";
 import PermissionMatrix from "./pages/Admin/PermissionMatrix.jsx";
 import RoleForm from "./pages/Admin/RoleForm.jsx";
 import DeleteRole from "./pages/Admin/DeleteRole.jsx";
+import UpdateRole from "./pages/Admin/UpdateRole1.jsx";
+import UpdateUserRole from "./pages/Admin/UpdateUserRole.jsx";
 
 const router = createBrowserRouter([
   {
@@ -117,7 +119,7 @@ const router = createBrowserRouter([
 
   {
     path: "/temp",
-    element: <ConfirmDelete />,
+    element: <UpdateUserRole />,
   },
 
   {

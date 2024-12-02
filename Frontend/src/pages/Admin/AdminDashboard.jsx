@@ -23,24 +23,11 @@ const AdminDashboard = () => {
 
   let usersRecent = filterRecentUsers(users);
 
-
-
   return (
     <>
       <div className="flex flex-col w-full ">
         <AdminHeader query={query} setQuery={setQuery} />
-        {/* <div className="w-full h-16 flex justify-between items-center p-1 border-b-2 mb-4">
-        <h2 className=" text-xl font-bold">Dashboard</h2>
-        <div className="flex items-center justify-between w-auto gap-3">
-          <FaSearch />
-          <button
-            type="button"
-            className="text-white   bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"
-          >
-            Create User
-          </button>
-        </div>
-      </div> */}
+
         <div className="w-full flex items-center justify-between p-3 mb-4">
           <div className="w-full">
             <h1 className="font-extrabold text-4xl font-sans">
@@ -57,7 +44,7 @@ const AdminDashboard = () => {
             </button>
           </div>
         </div>
-        <div className="w-full flex gap-3 mb-3 p-3">
+        <div className="w-full flex flex-col items-center md:flex-row gap-3 mb-3 md:p-3">
           <div className="w-full h-auto max-w-sm">
             <div class=" bg-purple-600 text-white rounded-lg shadow-lg p-4">
               <div class="mb-4 flex items-center justify-between">

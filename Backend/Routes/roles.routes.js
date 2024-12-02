@@ -1,10 +1,11 @@
 // backend/routes/roles.js
 const express = require("express");
 const Role = require("../Models/role.model.js");
+const { authorizeRoles } = require("../Middlewares/authentication.js");
 const router = express.Router();
 
 // Get all roles
-router.get("/roles", async (req, res) => {
+router.get("/roles", authorizeRoles("READ"), async (req, res) => {
   try {
     const roles = await Role.find({});
     if (!roles) {
@@ -24,7 +25,7 @@ router.get("/roles", async (req, res) => {
 });
 
 // Add a new role
-router.post("/roles/create", async (req, res) => {
+router.post("/roles/create", authorizeRoles("WRITE"), async (req, res) => {
   const { name, permissions } = req.body;
   const newRole = new Role({ name, permissions });
   try {
@@ -40,16 +41,25 @@ router.post("/roles/create", async (req, res) => {
 });
 
 // Edit a role
-router.put("/roles/:id", async (req, res) => {
+router.put("/roles/:id", authorizeRoles("WRITE"), async (req, res) => {
   try {
-    const updatedRole = await Role.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const { permissions } = req.body;
+    const updatedRole = await Role.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          permissions: permissions,
+        },
+      },
+      {
+        new: true,
+      }
+    );
 
     const updatedRoleList = await Role.find({});
     return res.status(201).json({
       success: true,
-      message: "User Role created successfully",
+      message: "User Role updated successfully",
       data: updatedRoleList,
       newUser: updatedRole,
     });
@@ -59,7 +69,7 @@ router.put("/roles/:id", async (req, res) => {
 });
 
 // Delete a role
-router.delete("/roles/:id", async (req, res) => {
+router.delete("/roles/:id", authorizeRoles("DELETE"), async (req, res) => {
   try {
     const deletedRole = await Role.findByIdAndDelete(req.params.id);
     if (!deletedRole) {

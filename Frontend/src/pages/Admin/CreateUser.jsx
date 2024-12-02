@@ -17,7 +17,7 @@ const CreateUser = () => {
 
     let userRole = roleElement.current.value.toLowerCase();
 
-    console.log("Take a mistake : ", userRole);
+   
 
     const user = {
       name:
@@ -39,7 +39,7 @@ const CreateUser = () => {
     });
     const data = await responce.json();
 
-    console.log("Our user data is : ", data);
+    
 
     firstNameElement.current.value = "";
     lastNameElement.current.value = "";
@@ -47,7 +47,7 @@ const CreateUser = () => {
     passwordElement.current.value = "";
     roleElement.current.value = "";
 
-    console.log("shinchan : ", data);
+
 
     if (data.success) {
       toast.success("User Created successfully");

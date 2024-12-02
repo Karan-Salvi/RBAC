@@ -22,6 +22,9 @@ import AdminDashboard from "./AdminDashboard";
 import CreateUser from "./CreateUser";
 import ConfirmDelete from "./ConfirmDelete";
 import { Toaster } from "react-hot-toast";
+import { CiLogout } from "react-icons/ci";
+import AdminHeader from "./AdminHeader";
+
 const AdminPanel = () => {
   const [active, setActive] = useState(0);
 
@@ -34,8 +37,6 @@ const AdminPanel = () => {
     });
 
     const data = await responce.json();
-
-    console.log("User Logged out data is : ", data);
 
     if (data.success == true) {
       navigate("/user/login");
@@ -64,6 +65,11 @@ const AdminPanel = () => {
       icon: <IoMdSettings className="text-xl font-bold text-gray-700" />,
       URL: "/admin/dashboard/settings",
     },
+    {
+      id: 4,
+      name: "Sign Out",
+      icon: <CiLogout className="text-xl font-bold text-gray-700" />,
+    },
     // {
     //   id: 4,
     //   name: "Role",
@@ -74,67 +80,60 @@ const AdminPanel = () => {
 
   const user = useSelector((store) => store.user);
 
-  console.log("Hiiisisisi", user.role);
-
   let date = new Date();
 
-  console.log("So date will be : " + date.toDateString().substring(4));
   return (
     <>
-      {" "}
-      <div className="w-full relative flex flex-col">
-        <div className="flex flex-row  max-h-[100vh] min-h-[100vh]">
-          <div className="w-1.5/12 md:w-2/12 bg-white rounded-lg shadow p-2 flex flex-col justify-between">
-            <ul className="list-none">
-              <div className=" md:flex items-center  p-5">
-                <img
-                  src="/images/logo.jpg"
-                  alt="Profile Picture"
-                  className="rounded-xl w-7 h-7 mr-2"
-                />
-                <span className="text-xl font-bold poppins-bold">
-                  MentorFlux
-                </span>
-              </div>
+     
+       
+  
 
-              {tasklist.map((task) => (
-                <li
-                  className={`p-3 border-b border-gray-200 ${
-                    active === task.id ? "bg-gray-200" : ""
-                  } hover:bg-gray-200 rounded-lg`}
-                >
-                  <Link
-                    to={`${task.URL}`}
-                    className="flex items-center"
-                    onClick={() => setActive(task.id)}
-                  >
-                    {task.icon}
-                    {/* <IoIosHome className="text-xl font-bold text-gray-700" /> */}
-                    <span className="ml-2 text-sm font-semibold text-gray-500 hidden sm:block">
-                      {task.name}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <div className="border-t border-gray-200 md:flex items-center p-3 flex justify-between">
-              <div className="flex items-center">
-                {" "}
-                <img
-                  src={`${user.avatar}`}
-                  alt="Profile Picture"
-                  className="rounded-full w-10 h-10 mr-2"
-                />
-                <span className="text-lg font-medium">{user.name}</span>
-              </div>
-
-              <PiDotsThreeBold className="text-xl" />
+      <aside
+        id="default-sidebar"
+        class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar"
+      >
+        <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+          <ul class="space-y-2 font-medium">
+            <div className="flex items-center  p-5">
+              <img
+                src="/images/logo.jpg"
+                alt="Profile Picture"
+                className="rounded-xl w-7 h-7 mr-2"
+              />
+              <span className="text-xl font-bold poppins-bold">MentorFlux</span>
             </div>
-          </div>
 
-          <Outlet />
+            {tasklist.map((task) => (
+              <li
+                className={`p-3 border-b border-gray-200 ${
+                  active === task.id ? "bg-gray-200" : ""
+                } hover:bg-gray-200 rounded-lg`}
+              >
+                <Link
+                  to={`${task.URL}`}
+                  className="flex items-center"
+                  onClick={() => {
+                    setActive(task.id);
+                    if (task.id === 4) {
+                      handleLogOut();
+                    }
+                  }}
+                >
+                  {task.icon}
+                  {/* <IoIosHome className="text-xl font-bold text-gray-700" /> */}
+                  <span className="ml-2 text-sm font-semibold text-gray-500">
+                    {task.name}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
-        <Toaster />
+      </aside>
+
+      <div class="p-1 sm:ml-64">
+        <Outlet />
       </div>
     </>
   );

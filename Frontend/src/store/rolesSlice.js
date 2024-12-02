@@ -5,27 +5,22 @@ const rolesSlice = createSlice({
   initialState: [], // Roles array
   reducers: {
     initializeRoles: (state, action) => {
-      console.log("Initializing roles with:", action.payload);
-      return [...action.payload]; // Replace the state with the payload array
+      return [...action.payload];
     },
     addRole: (state, action) => {
-      console.log("Adding role:", action.payload);
-      state.push(action.payload); // Adds a new role to the state
+      state.push(action.payload);
     },
     updateRole: (state, action) => {
-      console.log("Updating role:", action.payload);
       const { name, data } = action.payload;
       const roleIndex = state.findIndex((role) => role.name === name);
       if (roleIndex >= 0) {
-        state[roleIndex] = { ...state[roleIndex], ...data }; // Merge updated data
+        state[roleIndex] = { ...state[roleIndex], ...data };
       }
     },
     deleteRole: (state, action) => {
-      console.log("Deleting role with name:", action.payload);
-      return state.filter((role) => role.name !== action.payload); // Remove role by name
+      return state.filter((role) => role._id !== action.payload);
     },
     clearRoles: () => {
-      console.log("Clearing all roles");
       return []; // Reset state to an empty array
     },
   },

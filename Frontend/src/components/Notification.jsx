@@ -44,7 +44,7 @@ const Notification = ({ notification }) => {
     >
       <div className="flex items-center">
         <img
-          src="https://placehold.co/40x40"
+          src="/images/profile.jpeg"
           alt="Profile picture of the user who followed you"
           className="w-10 h-10 rounded-full mr-3"
         />

@@ -24,7 +24,7 @@ const MainUserPanel = () => {
 
     const data = await responce.json();
 
-    console.log("User Logged out data is : ", data);
+   
 
     if (data.success == true) {
       navigate("/user/login");
@@ -55,14 +55,6 @@ const MainUserPanel = () => {
             </div>
             <ul className="list-none">
               <li className="py-2 border-b border-gray-200">
-                <Link to={"/user/dashboard"} className="flex items-center">
-                  <IoIosHome className="text-xl font-bold text-gray-700" />
-                  <span className="ml-2 text-sm font-semibold text-gray-500 hidden md:block">
-                    Dashboard
-                  </span>
-                </Link>
-              </li>
-              <li className="py-2 border-b border-gray-200">
                 <Link
                   to={"/user/dashboard/scheduledmeetings"}
                   className="flex items-center"
@@ -73,17 +65,7 @@ const MainUserPanel = () => {
                   </span>
                 </Link>
               </li>
-              <li className="py-2 border-b border-gray-200">
-                <Link
-                  to={"/user/dashboard/history"}
-                  className="flex items-center"
-                >
-                  <MdHistory className="text-xl text-gray-700" />
-                  <span className="ml-2 text-sm font-semibold text-gray-500 hidden md:block">
-                    History
-                  </span>
-                </Link>
-              </li>
+
               <li className="py-2 border-b border-gray-200">
                 <Link
                   to={"/user/dashboard/notifications"}
@@ -95,28 +77,7 @@ const MainUserPanel = () => {
                   </span>
                 </Link>
               </li>
-              <li className="py-2 border-b border-gray-200">
-                <Link
-                  to={"/user/dashboard/feedback"}
-                  className="flex items-center"
-                >
-                  <MdFeedback className="text-xl text-gray-700" />
-                  <span className="ml-2 text-sm font-semibold text-gray-500 hidden md:block">
-                    Feedback and Ratings
-                  </span>
-                </Link>
-              </li>
-              <li className="py-2 border-b border-gray-200">
-                <Link
-                  to={"/user/dashboard/support"}
-                  className="flex items-center"
-                >
-                  <MdOutlineSupportAgent className="text-xl text-gray-700" />
-                  <span className="ml-2 text-sm font-semibold text-gray-500 hidden md:block">
-                    Support
-                  </span>
-                </Link>
-              </li>
+
               <li className="py-2 border-b border-gray-200">
                 <Link
                   to={"/user/dashboard/settings"}
@@ -156,7 +117,7 @@ const MainUserPanel = () => {
                       Bonnie Green
                     </span>
                     <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">
-                      name@flowbite.com
+                      name@gmail.com
                     </span>
                   </div>
                   <ul className="py-2" aria-labelledby="user-menu-button">

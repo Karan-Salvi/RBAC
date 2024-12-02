@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 const UserRoute = ({ children }) => {
   const currentUser = useSelector((store) => store.user);
 
-  console.log("Current User is : ", currentUser);
   const location = useLocation();
 
   // Check if user exists and role is valid

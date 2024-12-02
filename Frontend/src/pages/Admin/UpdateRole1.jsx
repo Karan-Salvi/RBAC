@@ -1,20 +1,19 @@
-// frontend/src/components/RoleForm.js
-import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa6";
-import { CiCircleRemove } from "react-icons/ci";
-import { MdDelete } from "react-icons/md";
+import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
-import { useDispatch } from "react-redux";
-import { messageActions } from "../../store/messageSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { MdDelete } from "react-icons/md";
+import { FaPlus } from "react-icons/fa6";
+import { rolesSliceActions } from "../../store/rolesSlice";
 
-import toast, { Toaster } from "react-hot-toast";
-
-const RoleForm = ({ fetchRoles }) => {
+const UpdateRoletemp = () => {
   const [name, setName] = useState("");
   const [permissions, setPermissions] = useState([""]); // Start with one empty permission
 
-  const nameElement = document.getElementById("name");
-  const permissionElement = document.getElementById("role");
+  const [permissionsList, setPermissionsList] = useState([
+    "Read",
+    "Write",
+    "Delete",
+  ]);
 
   const handlePermissionChange = (index, value) => {
     const newPermissions = [...permissions];
@@ -31,8 +30,6 @@ const RoleForm = ({ fetchRoles }) => {
     setPermissions(newPermissions);
   };
 
-  const dispatch = useDispatch();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,54 +37,88 @@ const RoleForm = ({ fetchRoles }) => {
       permission = permission.toUpperCase();
     });
 
-    const responce = await fetch("http://localhost:8000/api/v1/roles/create", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      method: "POST",
-      body: JSON.stringify({
-        name: name.toLowerCase(),
-        permissions: permissions,
-      }),
-    });
+   
+
+    const responce = await fetch(
+      `http://localhost:8000/api/v1/roles/${name.toLowerCase()}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        method: "PUT",
+        body: JSON.stringify({
+          permissions: permissions,
+        }),
+      }
+    );
 
     const value = await responce.json();
 
+  
+
     if (value.success) {
-      nameElement.value = "";
-      permissionElement.value = "Select Permissions";
-      toast.success("Role created successfully");
+      toast.success("Role Updated successfully");
     } else {
       toast.error("Something went wrong");
     }
+
+    
   };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function getRoles() {
+      const responce = await fetch("http://localhost:8000/api/v1/roles", {
+        credentials: "include",
+      });
+
+      const value = await responce.json();
+
+      
+
+      dispatch(rolesSliceActions.initializeRoles(value.data));
+    }
+    getRoles();
+  }, []);
+
+  const rolesList = useSelector((store) => store.roles);
+
+  
 
   return (
     <>
-      <div className="w-full flex flex-col min-h-[99vh] justify-start items-center ">
-        <AdminHeader />
-        <div className="w-full h-[80vh] flex  justify-center items-center p-2 ">
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
+        <div className="w-full h-auto flex  justify-center items-center ">
           <form
             onSubmit={handleSubmit}
-            // className="w-full"
-            className="w-full flex flex-col gap-4 md:w-2/5 border-2 px-6 py-16 rounded-lg shadow-xl "
+            className="flex flex-col gap-4 w-2/5 h-auto border-2 px-6 py-16 rounded-lg  bg-white "
           >
-            <div className="flex flex-col gap-2">
-              <label htmlFor="name">Enter the Role Name : </label>
-              <input
-                type="text"
+            <h1 className="text-lg font-bold">Update Users permissions : </h1>
+            {/* <div className="flex flex-col gap-2">
+              <label htmlFor="name">
+                Enter the Role for permission change :
+              </label>
+
+              <select
                 id="name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Role Name"
                 required
-              />
-            </div>
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option>Select Role to update</option>
+                {rolesList.map((role) => (
+                  <option key={role._id}>{role.name.toUpperCase()}</option>
+                ))}
+              </select>
+            </div> */}
 
             <div className="flex flex-col gap-2 ">
-              <label htmlFor="permissions">Assign Permissions : </label>
+              <label htmlFor="permissions">
+                Assign new Permission for Role :{" "}
+              </label>
               {permissions.map((permission, index) => (
                 <div key={index} className="flex items-center">
                   {/* <input
@@ -108,10 +139,12 @@ const RoleForm = ({ fetchRoles }) => {
                     required
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    <option>Select Permissions</option>
-                    <option>Read</option>
-                    <option>Write</option>
-                    <option>Delete</option>
+                    <option>
+                      Select permission which you want to assign to Role
+                    </option>
+                    {permissionsList.map((role) => (
+                      <option>{role}</option>
+                    ))}
                   </select>
 
                   <button
@@ -151,4 +184,4 @@ const RoleForm = ({ fetchRoles }) => {
   );
 };
 
-export default RoleForm;
+export default UpdateRoletemp;

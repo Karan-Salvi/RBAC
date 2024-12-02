@@ -14,9 +14,13 @@ const {
   intializeUser,
   updateAvatar,
   getAllusersDetail,
+  updateUserRoleByAdmin,
 } = require("../Controllers/user.controller.js");
 
-const { checkAuthenticated } = require("../Middlewares/authentication.js");
+const {
+  checkAuthenticated,
+  authorizeRoles,
+} = require("../Middlewares/authentication.js");
 
 const upload = require("../Middlewares/multer.js");
 
@@ -42,13 +46,24 @@ router.route("/password/update").put(updatePassword);
 
 router.route("/me/update").put(updatePersonalDetails);
 
-router.route("/user/delete/:id").delete(DeleteUser);
+router.route("/user/delete/:id").delete(authorizeRoles("DELETE"), DeleteUser);
 
-router.route("/user/updateRole/:id").put(updateUserRole);
+router
+  .route("/user/updateRole/:id")
+  .put(authorizeRoles("WRITE"), updateUserRole);
+
+router
+  .route("/user/updateRoleAsAdmin/:id")
+  .put(authorizeRoles("WRITE"), updateUserRoleByAdmin);
 
 router
   .route("/user/avatar")
-  .put(checkAuthenticated(), upload.single("avatar"), updateAvatar);
+  .put(
+    checkAuthenticated(),
+    authorizeRoles("WRITE"),
+    upload.single("avatar"),
+    updateAvatar
+  );
 
 router.route("/users").get(getAllusersDetail);
 

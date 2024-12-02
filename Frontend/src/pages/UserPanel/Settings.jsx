@@ -17,8 +17,6 @@ const Settings = () => {
 
   const loader = useSelector((store) => store.loader);
 
-  console.log("Before the user is : ", user);
-
   const dispatch = useDispatch();
 
   // Optimise the call for the database here you are refreshing the page again and again which makes read and write operation
@@ -26,11 +24,9 @@ const Settings = () => {
     event.preventDefault();
     formData.append("avatar", avatar);
 
-    console.log("forma daata is : ", formData);
-
     if (avatar) {
       dispatch(loaderSliceActions.showLoader());
-      console.log("The loader values is : ", loader);
+
       const responce = await fetch("http://localhost:8000/api/v1/user/avatar", {
         method: "PUT",
         credentials: "include",
@@ -39,13 +35,11 @@ const Settings = () => {
 
       const finalResponce = await responce.json();
 
-      console.log("Our final responce is : ", finalResponce);
-
       if (finalResponce.success) {
         dispatch(loaderSliceActions.hideLoader());
-        console.log("The loader values is : ", loader);
+
         dispatch(userSliceActions.addUser(finalResponce.data));
-        console.log("Updated User is : ", user);
+
         window.location.reload();
       }
     }
@@ -66,8 +60,6 @@ const Settings = () => {
     });
 
     const user = await responce.json();
-
-    console.log("User Login Data is here : ", user);
 
     dispatch(userSliceActions.addUser(user.data));
 
@@ -143,7 +135,6 @@ const Settings = () => {
                   className="hidden"
                   onChange={(e) => {
                     setAvatar(e.target.files[0]);
-                    console.log(e.target.files[0]);
                   }}
                 />
               </label>

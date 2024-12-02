@@ -47,7 +47,7 @@ const DeleteRole = () => {
 
     const value = await responce.json();
 
-    console.log("Added a new role : ", value);
+   
 
     if (value.success) {
       toast.success("Role created successfully");
@@ -55,19 +55,6 @@ const DeleteRole = () => {
       toast.error("Something went wrong");
     }
 
-    // await fetch("http://localhost:8000/api/v1/roles", {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   credentials: "include",
-    //   body: JSON.stringify({
-    //     name: name.toLowerCase(),
-    //     permissions: permissions,
-    //   }),
-    // });
-    // fetchRoles();
-    // setName("");
-    // setPermissions([""]); // Reset to one empty permission
   };
 
   return (

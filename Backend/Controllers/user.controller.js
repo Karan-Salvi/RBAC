@@ -350,6 +350,33 @@ const getSingaluserDetail = catchAsyncErrors(async (req, res) => {
   }
 });
 
+const updateUserRoleByAdmin = catchAsyncErrors(async (req, res) => {
+  const user = await User.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: {
+        role: req.body.role,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!user) {
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+    message: "User Role updated successfully",
+    data: user,
+  });
+});
+
 // upadate user Role -- ADMIN
 const updateUserRole = catchAsyncErrors(async (req, res) => {
   const { name, email, role } = req.body;
@@ -453,4 +480,5 @@ module.exports = {
   updateAvatar,
   getAllusersDetail,
   getSingaluserDetail,
+  updateUserRoleByAdmin,
 };
